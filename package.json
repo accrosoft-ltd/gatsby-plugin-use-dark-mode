@@ -1,5 +1,12 @@
 {
-  "name": "gatsby-plugin-use-dark-mode",
+  "name": "@accrosoft-ltd/gatsby-plugin-use-dark-mode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/accrosoft-ltd/gatsby-plugin-use-dark-mode"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "version": "0.0.0-semantically-released",
   "description": "Gatsby plugin to prevent a flash of default styles when using the use-dark-mode hook",
   "keywords": [
@@ -20,10 +27,6 @@
     "theme-hydration-script-tag.js"
   ],
   "homepage": "https://github.com/wKovacs64/gatsby-plugin-use-dark-mode#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wKovacs64/gatsby-plugin-use-dark-mode.git"
-  },
   "bugs": {
     "url": "https://github.com/wKovacs64/gatsby-plugin-use-dark-mode/issues"
   },
@@ -44,9 +47,6 @@
     }
   },
   "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "prop-types": "^15.7.2",
     "terser": "^4.0.0"
