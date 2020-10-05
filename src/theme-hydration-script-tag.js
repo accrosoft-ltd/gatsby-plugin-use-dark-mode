@@ -4,7 +4,7 @@ import Terser from 'terser';
 
 // Adapted from:
 // https://github.com/donavon/use-dark-mode/blob/develop/noflash.js.txt
-function generateNoFlashScript({ classNameDark, classNameLight, storageKey }) {
+function generateNoFlashScript({ classNameDark, classNameLight, storageKey, usePrefersColorScheme }) {
   return `
     (function(classNameDark, classNameLight, storageKey) {
       function setClassOnDocumentBody(darkMode) {
@@ -14,8 +14,9 @@ function generateNoFlashScript({ classNameDark, classNameLight, storageKey }) {
 
       var preferDarkQuery = '(prefers-color-scheme: dark)';
       var mql = window.matchMedia(preferDarkQuery);
-      var supportsColorSchemeQuery = mql.media === preferDarkQuery;
+      var supportsColorSchemeQuery = usePrefersColorScheme ? mql.media === preferDarkQuery : false;
       var localStorageTheme = null;
+
       try {
         localStorageTheme = localStorage.getItem(storageKey);
       } catch (err) {}
@@ -37,7 +38,7 @@ function generateNoFlashScript({ classNameDark, classNameLight, storageKey }) {
         var isDarkMode = document.body.classList.contains(classNameDark);
         localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
       }
-    })('${classNameDark}', '${classNameLight}', '${storageKey}');
+    })('${classNameDark}', '${classNameLight}', '${storageKey}', ${usePrefersColorScheme});
   `;
 }
 
@@ -46,11 +47,13 @@ function ThemeHydrationScriptTag({
   classNameLight,
   storageKey,
   minify,
+  usePrefersColorScheme,
 }) {
   const noFlashScript = generateNoFlashScript({
     classNameDark,
     classNameLight,
     storageKey,
+    usePrefersColorScheme,
   });
 
   const finalNoFlashScript = minify
@@ -66,6 +69,7 @@ ThemeHydrationScriptTag.propTypes = {
   classNameLight: PropTypes.string,
   storageKey: PropTypes.string,
   minify: PropTypes.bool,
+  usePrefersColorScheme: PropTypes.bool,
 };
 
 ThemeHydrationScriptTag.defaultProps = {
@@ -73,6 +77,7 @@ ThemeHydrationScriptTag.defaultProps = {
   classNameLight: 'light-mode',
   storageKey: 'darkMode',
   minify: true,
+  usePrefersColorScheme: true,
 };
 
 export default ThemeHydrationScriptTag;
